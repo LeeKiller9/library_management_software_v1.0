@@ -85,10 +85,16 @@ public class BorrowManagement {
 
     public List<Borrow> displayOverDate() {
         List<Borrow> overDateBorrow = new ArrayList<>();
-        LocalDate today = LocalDate.now();
-        LocalDate dateBorrow = today.minus(timeBorrow, ChronoUnit.DAYS);
+        LocalDate dateBorrow;
+        LocalDate today;
         for (Borrow borrow : this.borrows) {
-            if (borrow.getReturnDate() == null && borrow.getBorrowDate().compareTo(dateBorrow) < 0) {
+            if (borrow.getReturnDate() == null) {
+                today = LocalDate.now();
+            } else {
+                today = borrow.getReturnDate();
+            }
+            dateBorrow = today.minus(timeBorrow, ChronoUnit.DAYS);
+            if (borrow.getBorrowDate().compareTo(dateBorrow) < 0) {
                 overDateBorrow.add(borrow);
             }
         }
